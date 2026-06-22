@@ -2,74 +2,85 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'admin123') {
+    // Allow 'admin' or 'admin@cenro.gov.ph' as username/email for developer/user convenience
+    if ((email === 'admin' || email === 'admin@cenro.gov.ph') && password === 'admin123') {
       onLogin();
       navigate('/dashboard');
     } else {
-      setError('Invalid username or password');
+      setError('Invalid email or password');
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-screen bg-gradient-to-br from-indigo-950 to-blue-900">
-      <div className="w-full max-w-[440px] py-12 px-8 bg-slate-900/85 text-white border border-white/10 shadow-2xl text-center glass-card animate-fade-in">
-        <div className="mb-10">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 mx-auto mb-6 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)] font-bold text-white tracking-wider">
-            CENRO
+    <div className="flex justify-center items-center min-h-screen w-screen bg-gradient-to-br from-[#0c165a] to-[#080d3a] p-4">
+      {/* Light-colored card matching the mockup */}
+      <div className="w-full max-w-[460px] py-12 px-9 bg-[#f8fafc] text-slate-800 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] text-center animate-fade-in border border-slate-100">
+        
+        {/* Seal Container */}
+        <div className="mb-8">
+          {/* CSS Mockup of San Fernando City Seal */}
+          <div className="w-24 h-24 rounded-full border-4 border-[#b45309] bg-gradient-to-br from-blue-700 to-red-600 mx-auto mb-6 flex items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.15)] relative overflow-hidden">
+            <div className="absolute inset-1 rounded-full border-2 border-white/50 flex flex-col items-center justify-center bg-blue-900 p-1">
+              <span className="text-[10px] font-bold text-white leading-tight uppercase tracking-wider">SF</span>
+              <span className="text-[7px] font-semibold text-blue-200 uppercase tracking-tighter">CENRO</span>
+            </div>
           </div>
-          <h2 className="text-xl font-semibold mb-2">City Environment and Natural Resources Office</h2>
-          <p className="text-slate-400 text-sm">Aquatic Waste Collection System</p>
+          <h2 className="text-[17px] font-bold text-slate-900 leading-snug px-2">
+            City Environment and Natural Resources Office (CENRO) Aquatic Management System
+          </h2>
         </div>
         
-        <form onSubmit={handleSubmit} className="text-left">
+        <form onSubmit={handleSubmit} className="text-left flex flex-col gap-5">
           {error && (
-            <div className="bg-red-500/10 text-red-400 p-3 rounded-md mb-6 text-sm border border-red-500/20">
+            <div className="bg-red-500/10 text-red-600 p-3.5 rounded-xl text-xs font-semibold border border-red-500/20 text-center">
               {error}
             </div>
           )}
           
-          <div className="flex flex-col gap-2 mb-6">
-            <label htmlFor="username" className="text-sm font-medium text-slate-300">Username</label>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="text-[13px] font-bold text-slate-700">Email</label>
             <input 
               type="text" 
-              id="username" 
-              className="py-3 px-4 border rounded-md font-inherit text-base transition-all duration-200 bg-white/10 border-white/20 text-white placeholder-slate-400 focus:outline-none focus:bg-white/15 focus:border-blue-400"
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
-              placeholder="Enter admin"
+              id="email" 
+              className="py-3 px-4 border border-slate-300 rounded-xl text-[15px] font-medium transition-all duration-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0c165a] focus:ring-1 focus:ring-[#0c165a] shadow-sm"
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+              placeholder="admin@cenro.gov.ph"
               required 
             />
           </div>
           
-          <div className="flex flex-col gap-2 mb-6">
-            <label htmlFor="password" className="text-sm font-medium text-slate-300">Password</label>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="password" className="text-[13px] font-bold text-slate-700">Password</label>
             <input 
               type="password" 
               id="password" 
-              className="py-3 px-4 border rounded-md font-inherit text-base transition-all duration-200 bg-white/10 border-white/20 text-white placeholder-slate-400 focus:outline-none focus:bg-white/15 focus:border-blue-400"
+              className="py-3 px-4 border border-slate-300 rounded-xl text-[15px] font-medium transition-all duration-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0c165a] focus:ring-1 focus:ring-[#0c165a] shadow-sm"
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
-              placeholder="Enter admin123"
+              placeholder="••••••••"
               required 
             />
           </div>
           
           <button 
             type="submit" 
-            className="w-full mt-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white border-none py-3 px-6 rounded-md font-semibold text-base cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(59,130,246,0.3)] active:translate-y-0.5"
+            className="w-full mt-2 bg-[#0c165a] hover:bg-[#070d38] text-white border-none py-3 px-6 rounded-xl font-bold text-[15px] cursor-pointer transition-all duration-200 shadow-md hover:shadow-[0_4px_12px_rgba(12,22,90,0.2)] hover:-translate-y-0.5 active:translate-y-0"
           >
             Login
           </button>
           
-          <div className="mt-6 text-center text-sm">
-            <a href="#" className="text-slate-400 no-underline transition-colors duration-200 hover:text-white">Forgot password?</a>
+          <div className="mt-4 text-center">
+            <a href="#" className="text-sm font-bold text-[#1b4de4] hover:underline transition-all">
+              Forgot password?
+            </a>
           </div>
         </form>
       </div>
@@ -78,3 +89,4 @@ const Login = ({ onLogin }) => {
 };
 
 export default Login;
+

@@ -9,7 +9,7 @@ const Layout = ({ isAuthenticated, onLogout }) => {
   return (
     <div className="flex h-screen w-screen overflow-hidden">
       <Sidebar onLogout={onLogout} />
-      <main className="flex-1 p-8 overflow-y-auto relative">
+      <main className="flex-1 p-8 overflow-y-auto relative bg-[#f8fafc]">
         <Outlet />
       </main>
     </div>
