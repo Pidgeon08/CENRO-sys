@@ -12,7 +12,7 @@ const Login = ({ onLogin }) => {
     // Allow 'admin' or 'admin@cenro.gov.ph' as username/email for developer/user convenience
     if ((email === 'admin' || email === 'admin@cenro.gov.ph') && password === 'admin123') {
       onLogin();
-      navigate('/dashboard');
+      navigate('/admin/dashboard');
     } else {
       setError('Invalid email or password');
     }

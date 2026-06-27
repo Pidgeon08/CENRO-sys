@@ -1,15 +1,35 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Map, FileText, Settings as SettingsIcon, LogOut } from 'lucide-react';
+import { Home, Map, FileText, Settings as SettingsIcon, LogOut, Shield, ClipboardList, Users, Truck, Bot, InboxIcon } from 'lucide-react';
 
-const Sidebar = ({ onLogout }) => {
+const navItems = {
+  admin: [
+    { to: '/admin/dashboard', icon: Home, label: 'Dashboard' },
+    { to: '/admin/manage-bots', icon: Bot, label: 'Bot Management' },
+    { to: '/admin/users', icon: Users, label: 'User Management' },
+    { to: '/admin/requests', icon: InboxIcon, label: 'Requests' },
+    { to: '/admin/collection', icon: Truck, label: 'Collection Schedule' },
+    { to: '/admin/heatmap', icon: Map, label: 'Heatmap' },
+    { to: '/admin/reports', icon: FileText, label: 'Report Generation' },
+    { to: '/admin/audit', icon: ClipboardList, label: 'Audit Logs' },
+    { to: '/admin/settings', icon: SettingsIcon, label: 'Settings' },
+  ],
+  mayorsoffice: [
+    { to: '/mayorsoffice/requests', icon: InboxIcon, label: 'Requests' },
+  ],
+  spearhead: [
+    { to: '/spearhead/requests', icon: InboxIcon, label: 'Requests' },
+    { to: '/spearhead/heatmap', icon: Map, label: 'Heatmap' },
+    { to: '/spearhead/reports', icon: FileText, label: 'Report Generation' },
+  ],
+};
+
+const Sidebar = ({ onLogout, userType = 'admin' }) => {
   const getNavLinkClass = (isActive) =>
-    `flex items-center px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-200 font-medium text-[15px] group ${
-      isActive ? 'bg-[#1b4de4] text-white shadow-[0_4px_12px_rgba(27,77,228,0.25)]' : ''
+    `flex items-center px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-200 font-medium text-[15px] group ${isActive ? 'bg-[#1b4de4] text-white shadow-[0_4px_12px_rgba(27,77,228,0.25)]' : ''
     }`;
 
   const getIconClass = (isActive) =>
-    `w-5 h-5 mr-3.5 transition-colors duration-200 ${
-      isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'
+    `w-5 h-5 mr-3.5 transition-colors duration-200 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'
     }`;
 
   return (
@@ -23,48 +43,23 @@ const Sidebar = ({ onLogout }) => {
           </div>
         </div>
         <div className="flex flex-col">
-          <span className="font-bold text-base leading-tight tracking-wide text-white">CENRO Aquabot</span>
+          <span className="font-bold text-base leading-tight tracking-wide text-white">CENRO TROID bot</span>
           <span className="text-xs text-blue-300 font-medium mt-0.5">for cleaner waters</span>
         </div>
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 py-8 px-4 flex flex-col gap-2">
-        <NavLink to="/dashboard" className={({ isActive }) => getNavLinkClass(isActive)}>
-          {({ isActive }) => (
-            <>
-              <Home className={getIconClass(isActive)} />
-              <span>Dashboard</span>
-            </>
-          )}
-        </NavLink>
-
-        <NavLink to="/heatmap" className={({ isActive }) => getNavLinkClass(isActive)}>
-          {({ isActive }) => (
-            <>
-              <Map className={getIconClass(isActive)} />
-              <span>Heatmap</span>
-            </>
-          )}
-        </NavLink>
-
-        <NavLink to="/reports" className={({ isActive }) => getNavLinkClass(isActive)}>
-          {({ isActive }) => (
-            <>
-              <FileText className={getIconClass(isActive)} />
-              <span>Report Generation</span>
-            </>
-          )}
-        </NavLink>
-
-        <NavLink to="/settings" className={({ isActive }) => getNavLinkClass(isActive)}>
-          {({ isActive }) => (
-            <>
-              <SettingsIcon className={getIconClass(isActive)} />
-              <span>Settings</span>
-            </>
-          )}
-        </NavLink>
+        {navItems[userType]?.map((item) => (
+          <NavLink key={item.to} to={item.to} className={({ isActive }) => getNavLinkClass(isActive)}>
+            {({ isActive }) => (
+              <>
+                <item.icon className={getIconClass(isActive)} />
+                <span>{item.label}</span>
+              </>
+            )}
+          </NavLink>
+        ))}
       </nav>
 
       {/* Footer Block */}
@@ -86,7 +81,9 @@ const Sidebar = ({ onLogout }) => {
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-semibold text-white">John Admin</span>
-              <span className="text-xs text-slate-400 font-medium mt-0.5">Status online</span>
+              <span className="text-xs text-slate-400 font-medium mt-0.5 flex items-center gap-1">
+                <Shield className="w-3 h-3" /> Admin
+              </span>
             </div>
           </div>
           <div className="w-2.5 h-2.5 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981]"></div>
