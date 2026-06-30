@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('latitude', models.FloatField()),
                 ('longitude', models.FloatField()),
                 ('trash_count', models.IntegerField(default=1)),
-                ('boat', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='detections', to='fleet_api.boat')),
+                ('boat', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='detections', to='troid_api.boat')),
             ],
         ),
     ]

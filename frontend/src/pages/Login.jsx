@@ -2,19 +2,46 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onLogin }) => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Allow 'admin' or 'admin@cenro.gov.ph' as username/email for developer/user convenience
-    if ((email === 'admin' || email === 'admin@cenro.gov.ph') && password === 'admin123') {
-      onLogin();
-      navigate('/admin/dashboard');
-    } else {
-      setError('Invalid email or password');
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:8000/api/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        setError(data.error || 'Login failed');
+        return;
+      }
+
+      const data = await response.json();
+      let role = data.role || data.user?.role;
+      if (!role) {
+        setError('Invalid response from server');
+        return;
+      }
+
+      if (role === 'officemayor') {
+        role = 'mayorsoffice';
+      }
+
+      onLogin({ ...data.user, role });
+      const path = role === 'admin' ? '/admin/dashboard' : role === 'spearhead' ? '/spearhead/requests' : '/mayorsoffice/requests';
+      navigate(path);
+    } catch (err) {
+      setError('Network error. Please try again.');
     }
   };
 
@@ -45,14 +72,14 @@ const Login = ({ onLogin }) => {
           )}
           
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-[13px] font-bold text-slate-700">Email</label>
+            <label htmlFor="username" className="text-[13px] font-bold text-slate-700">Username</label>
             <input 
               type="text" 
-              id="email" 
+              id="username" 
               className="py-3 px-4 border border-slate-300 rounded-xl text-[15px] font-medium transition-all duration-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0c165a] focus:ring-1 focus:ring-[#0c165a] shadow-sm"
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              placeholder="admin@cenro.gov.ph"
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)} 
+              placeholder="admin_trial"
               required 
             />
           </div>
@@ -89,4 +116,3 @@ const Login = ({ onLogin }) => {
 };
 
 export default Login;
-
