@@ -2,10 +2,10 @@
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 Write-Host "Starting Django Backend..." -ForegroundColor Green
-$DjangoProc = Start-Process cmd.exe -ArgumentList "/k cd /d `"$ScriptDir\backend`" && python manage.py runserver" -WindowStyle Hidden -PassThru
+$DjangoProc = Start-Process cmd.exe -ArgumentList "/k cd /d `"$ScriptDir\backend`" && python manage.py runserver" -PassThru
 
 Write-Host "Starting React Frontend..." -ForegroundColor Green
-$ReactProc = Start-Process cmd.exe -ArgumentList "/k cd /d `"$ScriptDir\frontend`" && npm run dev" -WindowStyle Hidden -PassThru
+$ReactProc = Start-Process cmd.exe -ArgumentList "/k cd /d `"$ScriptDir\frontend`" && npm run dev"  -PassThru
 
 Write-Host "`n====================================================" -ForegroundColor Yellow
 Write-Host " Servers are running in their own windows." -ForegroundColor Yellow
